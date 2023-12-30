@@ -1,3 +1,3 @@
-(use ../secgen/init)
+(use ../xviqsc/init)
 
 (assert (= (hello) "Hello!"))

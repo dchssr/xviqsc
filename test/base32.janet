@@ -1,4 +1,4 @@
-(import ../secgen/base32)
+(import ../xviqsc/base32)
 
 # To make sure I didn't accidentally screw up the alphabet.
 (assert (= 32 (length base32/alphabet)))
