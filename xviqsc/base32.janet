@@ -15,10 +15,16 @@ but will be capitalized in this program."
 
 (defn encode [value]
   "Encode an integer into a Base 32 digit string."
-  (if (and (int? value) (<= 0 value 31))
-    # Return a string for eg. `string/check-set'.
-    (string/from-bytes (get alphabet value))
-    (errorf "%d cannot be represented as a base-32 digit" value)))
+  (if (int? value)
+    (cond
+      # Direct values
+      (<= 0 value 31) (string/from-bytes (get alphabet value))
+      # Numbers and uppercase letters
+      (or (<= 48 value  57) (<= 65 value  90)) (string/from-bytes value)
+      # Convert lowercase letters to upppercase
+      (<= 97 value 122) (encode (string/ascii-upper value))
+      (errorf "%d is out of range for a valid Base 32 value" value))
+    (errorf "%v cannot be translated to a Base 32 value" value)))
 
 (defn decode [value]
   "Decode an alphanumber digit into its Base 32 value."
